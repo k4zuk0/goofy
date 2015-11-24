@@ -39,7 +39,6 @@ function init() {
     setTimeout(function() {
         //render settings menu
         document.querySelector('._150g._30yy._2fug._p').click();
-        mixpanel.track("loaded");
     }, 3000);
 
     document.body.onkeypress=function(e) {
@@ -76,10 +75,19 @@ function uploadInfo() {
 
 function updateTitle() {
     var a = "";
+
     if (document.querySelector('._2v6o')) {
         a = document.querySelector('._2v6o').textContent;
     }
-    window.webkit.messageHandlers.notification.postMessage({type: 'SET_TITLE', title: document.querySelector('._5743 span').textContent, activity: a});
+
+    var title = null;
+    if (isOnNewMessageTab()) {
+        title = 'New message';
+    } else {
+        title = document.querySelector('._5743 span').textContent;
+    }
+
+    window.webkit.messageHandlers.notification.postMessage({type: 'SET_TITLE', title: title, activity: a});
 }
 
 function newConversation() {
@@ -267,6 +275,10 @@ function convertEmoji() {
             }
         });
     });
+}
+
+function isOnNewMessageTab() {
+    return document.querySelectorAll('[aria-labelledby="js_2"]').length > 0;
 }
 
 
