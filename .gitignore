@@ -55,3 +55,6 @@ xcuserdata
 *.moved-aside
 DerivedData
 *.xcuserstate
+
+server/.idea/
+server/server.iml
